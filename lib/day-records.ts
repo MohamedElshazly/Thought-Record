@@ -1,4 +1,4 @@
-import { isValidDayId, type DayId } from "@/lib/day-id"
+import { dayIdToDate, isValidDayId, type DayId } from "@/lib/day-id"
 
 export type DayRecord = {
 	id: DayId
@@ -125,4 +125,17 @@ export function listDayRecordIds(): DayId[] {
 		.filter(([, record]) => record.content.trim().length > 0)
 		.map(([dayId]) => dayId)
 		.sort()
+}
+
+export const getFormattedDay = (dayId: DayId) => {
+	const date = dayIdToDate(dayId)
+	if (!date) {
+		return dayId
+	}
+	return date.toLocaleDateString(undefined, {
+		weekday: "long",
+		year: "numeric",
+		month: "long",
+		day: "numeric",
+	})
 }
